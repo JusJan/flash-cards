@@ -1,0 +1,48 @@
+{
+  "ProjectName": "Flash Cards App",
+  "ProjectGuid": "1153af37-b4d5-4187-b7bd-26525ab8a3c5",
+  "projectVersion": 1,
+  "AppIdentifier": "com.telerik.FlashCardsApp",
+  "DisplayName": "Flash Cards App",
+  "Author": "",
+  "Description": "Flash Cards App",
+  "BundleVersion": "1.0",
+  "AndroidVersionCode": "1",
+  "iOSDeviceFamily": [
+    "1",
+    "2"
+  ],
+  "iOSBackgroundMode": [],
+  "ProjectTypeGuids": "{070BCB52-5A75-4F8C-A973-144AF0EAFCC9}",
+  "FrameworkVersion": "3.7.0",
+  "AndroidPermissions": [
+    "android.permission.INTERNET"
+  ],
+  "DeviceOrientations": [
+    "Portrait",
+    "Landscape"
+  ],
+  "AndroidHardwareAcceleration": "false",
+  "iOSStatusBarStyle": "Default",
+  "Framework": "Cordova",
+  "WP8TileTitle": "",
+  "WP8Publisher": "",
+  "WP8Capabilities": [
+    "ID_CAP_NETWORKING",
+    "ID_CAP_WEBBROWSERCOMPONENT"
+  ],
+  "WP8Requirements": [],
+  "WP8PublisherID": "{5a9fb133-efea-4d40-97cb-3658c375ee45}",
+  "WP8ProductID": "{9c3fda8f-6be4-437e-bb58-e79d19bda946}",
+  "WPSdk": "8.0",
+  "WP8PackageIdentityName": "1234Telerik.FlashCardsApp",
+  "WP8WindowsPublisherName": "CN=Telerik",
+  "WP8SupportedResolutions": [
+    "ID_RESOLUTION_WVGA",
+    "ID_RESOLUTION_WXGA",
+    "ID_RESOLUTION_HD720P"
+  ],
+  "CorePlugins": [
+    "org.apache.cordova.network-information"
+  ]
+}
