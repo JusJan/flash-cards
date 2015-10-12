@@ -1,0 +1,14 @@
+<div data-role="view" data-title="My Cards" data-layout="main" data-model="app.myCardsView" data-show="app.myCardsView.onShow" data-after-show="app.myCardsView.afterShow">
+    <!-- START_CUSTOM_CODE_myCardsView -->
+    <!-- END_CUSTOM_CODE_myCardsView -->
+    <ul data-role="listview" data-style="inset" data-template="myCardsViewModelTemplate" data-bind="{ source: myCardsViewModel.dataSource}" data-pull-to-refresh="false" data-endless-scroll="false">
+    </ul>
+    <!-- START_CUSTOM_CODE_myCardsViewModel -->
+    <!-- END_CUSTOM_CODE_myCardsViewModel -->
+    <script type="text/x-kendo-template" id="myCardsViewModelTemplate">
+        <div class="image-with-text">
+            <h3>#: data['Text'] #</h3>
+
+        </div>
+    </script>
+</div>

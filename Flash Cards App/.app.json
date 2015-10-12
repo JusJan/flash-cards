@@ -1,15 +1,118 @@
 {
   "type": "kendo-ui-mobile",
-  "isNew": true,
+  "views": [
+    {
+      "type": "kendo-ui-mobile:view",
+      "name": "homeView",
+      "components": [
+        {
+          "type": "kendo-ui-mobile:list",
+          "name": "homeViewModel",
+          "dataProvider": "flashCardsBackend",
+          "collection": "Words",
+          "iconField": false,
+          "headerField": "Word",
+          "subHeaderField": "Translation",
+          "masterDetails": true,
+          "pullToRefresh": false,
+          "endlessScroll": false
+        }
+      ],
+      "title": "Vocabulary",
+      "addToNavigation": true,
+      "icon": "bookmarks"
+    },
+    {
+      "type": "kendo-ui-mobile:view",
+      "name": "authenticationView",
+      "components": [
+        {
+          "type": "kendo-ui-mobile:authentication",
+          "name": "authenticationViewModel",
+          "dataProvider": "defaultProvider",
+          "emailLabel": "Email",
+          "passwordLabel": "Password",
+          "signinLabel": "Sign In",
+          "signinRedirect": "homeView",
+          "enableRegistration": true,
+          "gotoRegisterLabel": "Register",
+          "registerEmailLabel": "Email",
+          "registerPasswordLabel": "Password",
+          "registerNameLabel": "Name",
+          "registerLabel": "Register",
+          "registerRedirect": "homeView",
+          "gotoSigninLabel": "Sign In"
+        }
+      ],
+      "title": "Authentication",
+      "addToNavigation": false
+    },
+    {
+      "type": "kendo-ui-mobile:view",
+      "name": "myCardsView",
+      "components": [
+        {
+          "type": "kendo-ui-mobile:list",
+          "name": "myCardsViewModel",
+          "dataProvider": "defaultProvider",
+          "collection": "UsersWords",
+          "headerField": "Text",
+          "masterDetails": false,
+          "pullToRefresh": false,
+          "endlessScroll": false
+        }
+      ],
+      "title": "My Cards",
+      "addToNavigation": true,
+      "icon": "organize"
+    },
+    {
+      "type": "kendo-ui-mobile:view",
+      "name": "settingsView",
+      "components": [
+        {
+          "type": "kendo-ui-mobile:form",
+          "components": [
+            {
+              "type": "kendo-ui-mobile:field",
+              "name": "showCard",
+              "title": "Show card for (s)",
+              "inputType": "number"
+            }
+          ],
+          "name": "settingsViewModel",
+          "submitButton": "Save",
+          "cancelButton": "Cancel"
+        }
+      ],
+      "title": "Settings",
+      "addToNavigation": true,
+      "icon": "settings"
+    }
+  ],
   "dataProviders": [
     {
-      "type": "dataProvider",
-      "title": "DefaultProvider",
+      "type": "kendo-ui-mobile:dataProvider",
       "name": "defaultProvider",
+      "everliveUrl": "//platform.telerik.com/bs-api/v1/",
+      "title": "DefaultProvider",
       "source": "everlive",
-      "offlineStorage": true,
       "everliveKey": "mihd8Xpk66olhsem",
-      "everliveUrl": ""
+      "offlineStorage": true
+    },
+    {
+      "type": "kendo-ui-mobile:dataProvider",
+      "name": "flashCardsBackend",
+      "everliveUrl": "//platform.telerik.com/bs-api/v1/",
+      "title": "Flash Cards / Flash Cards Backend",
+      "source": "everlive",
+      "everliveKey": "mihd8Xpk66olhsem",
+      "offlineStorage": true
     }
-  ]
+  ],
+  "name": "kendoUiMobileApp",
+  "navigation": "tabstrip",
+  "view": "homeView",
+  "transition": "slide",
+  "skin": "flat"
 }

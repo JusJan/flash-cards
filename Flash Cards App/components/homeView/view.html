@@ -1,0 +1,14 @@
+<div data-role="view" data-title="Vocabulary" data-layout="main" data-model="app.homeView" data-show="app.homeView.onShow" data-after-show="app.homeView.afterShow">
+    <!-- START_CUSTOM_CODE_homeView -->
+    <!-- END_CUSTOM_CODE_homeView -->
+    <ul data-role="listview" data-style="inset" data-template="homeViewModelTemplate" data-bind="{ source: homeViewModel.dataSource, events: {click: homeViewModel.itemClick}}" data-pull-to-refresh="false" data-endless-scroll="false">
+    </ul>
+    <!-- START_CUSTOM_CODE_homeViewModel -->
+    <!-- END_CUSTOM_CODE_homeViewModel -->
+    <script type="text/x-kendo-template" id="homeViewModelTemplate">
+        <div class="image-with-text">
+            <h3>#: data['Word'] #</h3>
+            <p>#: data['Translation'] #</p>
+        </div>
+    </script>
+</div>
