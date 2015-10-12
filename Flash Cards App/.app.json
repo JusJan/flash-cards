@@ -13,7 +13,7 @@
           "iconField": false,
           "headerField": "Word",
           "subHeaderField": "Translation",
-          "masterDetails": true,
+          "masterDetails": false,
           "pullToRefresh": false,
           "endlessScroll": false
         }

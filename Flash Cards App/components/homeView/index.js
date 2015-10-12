@@ -60,20 +60,7 @@ app.homeView = kendo.observable({
         },
         dataSource = new kendo.data.DataSource(dataSourceOptions),
         homeViewModel = kendo.observable({
-            dataSource: dataSource,
-            itemClick: function(e) {
-                app.mobileApp.navigate('#components/homeView/details.html?uid=' + e.dataItem.uid);
-            },
-            detailsShow: function(e) {
-                var item = e.view.params.uid,
-                    dataSource = homeViewModel.get('dataSource'),
-                    itemModel = dataSource.getByUid(item);
-                if (!itemModel.Word) {
-                    itemModel.Word = String.fromCharCode(160);
-                }
-                homeViewModel.set('currentItem', itemModel);
-            },
-            currentItem: null
+            dataSource: dataSource
         });
 
     parent.set('homeViewModel', homeViewModel);
