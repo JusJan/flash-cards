@@ -45,7 +45,8 @@
         }
       ],
       "title": "Authentication",
-      "addToNavigation": false
+      "addToNavigation": true,
+      "icon": "contacts"
     },
     {
       "type": "kendo-ui-mobile:view",
@@ -54,7 +55,7 @@
         {
           "type": "kendo-ui-mobile:list",
           "name": "myCardsViewModel",
-          "dataProvider": "defaultProvider",
+          "dataProvider": "flashCardsBackend",
           "collection": "UsersWords",
           "headerField": "Text",
           "masterDetails": false,

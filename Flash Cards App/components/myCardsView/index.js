@@ -8,7 +8,7 @@ app.myCardsView = kendo.observable({
 // START_CUSTOM_CODE_myCardsView
 // END_CUSTOM_CODE_myCardsView
 (function(parent) {
-    var dataProvider = app.data.defaultProvider,
+    var dataProvider = app.data.flashCardsBackend,
         flattenLocationProperties = function(dataItem) {
             var propName, propValue,
                 isLocation = function(value) {

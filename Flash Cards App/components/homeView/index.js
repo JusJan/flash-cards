@@ -6,6 +6,10 @@ app.homeView = kendo.observable({
 });
 
 // START_CUSTOM_CODE_homeView
+function AddToMyCards(e) {
+    var id = e.button.context.id;
+    console.log(id);
+}
 // END_CUSTOM_CODE_homeView
 (function(parent) {
     var dataProvider = app.data.flashCardsBackend,
