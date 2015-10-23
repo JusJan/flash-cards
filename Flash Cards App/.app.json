@@ -29,7 +29,7 @@
         {
           "type": "kendo-ui-mobile:authentication",
           "name": "authenticationViewModel",
-          "dataProvider": "defaultProvider",
+          "dataProvider": "flashCardsBackend",
           "emailLabel": "Email",
           "passwordLabel": "Password",
           "signinLabel": "Sign In",
