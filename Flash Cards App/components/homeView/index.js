@@ -116,7 +116,7 @@ function AddToMyCards(e) {
                 },
             dataUsersWords = new kendo.data.DataSource(usersWordsDataOptions);
             dataUsersWords.add({Word: wordId, Owner: userId, Level: "1", IncorrectAnswers: "0", CorrectAnswers: "0"});
-            console.log(dataUsersWords);
+           // console.log(dataUsersWords);
             dataUsersWords.sync();
                 //console.log(app.data.flashCardsBackend);
             //console.log(dataSource);

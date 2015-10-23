@@ -93,7 +93,7 @@ app.myCardsView = kendo.observable({
         myCardsViewModel = kendo.observable({
             dataSource: dataSource
         });
-    console.log(dataSource);
+  //  console.log(dataSource);
     parent.set('myCardsViewModel', myCardsViewModel);
 })(app.myCardsView);
 
