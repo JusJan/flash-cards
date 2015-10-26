@@ -6,8 +6,8 @@
     <!-- START_CUSTOM_CODE_homeViewModel -->
     <!-- END_CUSTOM_CODE_homeViewModel -->
     <script type="text/x-kendo-template" id="homeViewModelTemplate">
-        <div class="image-with-text">
-            <h3>#: data['Word'] #</h3>
+        <div class="image-with-text"><a data-role="button" id="#: data['Id'] #" data-click="AddToMyCards" class="add-button">Add to My Cards </a>
+            <h3>#: data['Word'] #</h3> 
             <p>#: data['Translation'] #</p>
         </div>
     </script>

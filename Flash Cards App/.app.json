@@ -45,7 +45,8 @@
         }
       ],
       "title": "Authentication",
-      "addToNavigation": false
+      "addToNavigation": true,
+      "icon": "contacts"
     },
     {
       "type": "kendo-ui-mobile:view",
@@ -63,7 +64,8 @@
         }
       ],
       "title": "My Cards",
-      "addToNavigation": false
+      "addToNavigation": true,
+      "icon": "organize"
     },
     {
       "type": "kendo-ui-mobile:view",
@@ -105,8 +107,7 @@
         }
       ],
       "title": "My Cards",
-      "addToNavigation": true,
-      "icon": "organize"
+      "addToNavigation": false
     }
   ],
   "dataProviders": [

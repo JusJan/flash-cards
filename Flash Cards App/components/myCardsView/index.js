@@ -1,17 +1,29 @@
 'use strict';
 
 app.myCardsView = kendo.observable({
-    onShow: function() {},
-    afterShow: function() {}
+    onShow: function () {
+        if (!app.user) {
+            app.mobileApp.navigate("components/authenticationView/view.html");
+        } else {
+            app.myCardsView.myCardsViewModel.dataSource.read();
+        }
+
+    },
+    afterShow: function () {}
 });
 
 // START_CUSTOM_CODE_myCardsView
 // END_CUSTOM_CODE_myCardsView
-(function(parent) {
+(function (parent) {
+    var expandExpr = {
+        'Word': {
+            TargetTypeName: 'Words',
+        },
+    };
     var dataProvider = app.data.flashCardsBackend,
-        flattenLocationProperties = function(dataItem) {
+        flattenLocationProperties = function (dataItem) {
             var propName, propValue,
-                isLocation = function(value) {
+                isLocation = function (value) {
                     return propValue && typeof propValue === 'object' &&
                         propValue.longitude && propValue.latitude;
                 };
@@ -32,10 +44,41 @@ app.myCardsView = kendo.observable({
             type: 'everlive',
             transport: {
                 typeName: 'UsersWords',
-                dataProvider: dataProvider
+                //    expand: {'Words': 'Word'}, 
+                dataProvider: dataProvider,
+                read: {
+                    contentType: "application/json",
+                    headers: {
+                        "X-Everlive-Expand": JSON.stringify(expandExpr)
+                    }
+                },
+            },
+             schema: {
+                model: {
+                    id: 'Id',
+                //    children: 'Word',
+                    fields: {
+                        'WordName': {
+                //            TargetTypeName: 'Words',
+                            field: 'Word.Word',
+                        },
+                        'WordTranslation':{
+              //              TargetTypeName: 'Words',
+                            field:'Word.Translation',
+                        },
+                        'Level': {
+                            field: 'Level',
+                            defaultValue: '',
+                        },
+                        'Owner': {
+                            field: 'Owner',
+                            //  validation:{is: app.user.Id},
+                        },
+                    }
+                }
             },
 
-            change: function(e) {
+            change: function (e) {
                 var data = this.data();
                 for (var i = 0; i < data.length; i++) {
                     var dataItem = data[i];
@@ -43,22 +86,14 @@ app.myCardsView = kendo.observable({
                     flattenLocationProperties(dataItem);
                 }
             },
-            schema: {
-                model: {
-                    fields: {
-                        'Text': {
-                            field: 'Text',
-                            defaultValue: ''
-                        },
-                    }
-                }
-            },
+            // filter: { field: 'Owner', operator: 'contains', value: app.user.Id },
+           
         },
-        dataSource = new kendo.data.DataSource(dataSourceOptions),
+        dataSource = new kendo.data.HierarchicalDataSource(dataSourceOptions),
         myCardsViewModel = kendo.observable({
             dataSource: dataSource
         });
-
+  //  console.log(dataSource);
     parent.set('myCardsViewModel', myCardsViewModel);
 })(app.myCardsView);
 

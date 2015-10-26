@@ -1,4 +1,4 @@
-<div data-role="view" data-title="My Cards" data-layout="main" data-model="app.levelListView" data-show="app.levelListView.onShow" data-after-show="app.levelListView.afterShow">
+<div data-role="view" data-title="My Cards" data-layout="main-nonav" data-model="app.levelListView" data-show="app.levelListView.onShow" data-after-show="app.levelListView.afterShow">
     <!-- START_CUSTOM_CODE_levelListView -->
     <!-- END_CUSTOM_CODE_levelListView -->
     <ul data-role="listview" data-style="inset" data-template="levelListViewModelTemplate" data-bind="{ source: levelListViewModel.dataSource, events: {click: levelListViewModel.itemClick}}" data-pull-to-refresh="false" data-endless-scroll="false">
@@ -7,7 +7,7 @@
     <!-- END_CUSTOM_CODE_levelListViewModel -->
     <script type="text/x-kendo-template" id="levelListViewModelTemplate">
         <div class="image-with-text">
-            <h3>#: data['Level'] #</h3>
+            <h3>Level #: data['value'] # (#: data['items.length'] #)</h3>
 
         </div>
     </script>

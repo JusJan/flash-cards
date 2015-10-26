@@ -1,17 +1,17 @@
 'use strict';
 
 app.levelListView = kendo.observable({
-    onShow: function() {},
-    afterShow: function() {}
+    onShow: function () {},
+    afterShow: function () {}
 });
 
 // START_CUSTOM_CODE_levelListView
 // END_CUSTOM_CODE_levelListView
-(function(parent) {
+(function (parent) {
     var dataProvider = app.data.flashCardsBackend,
-        flattenLocationProperties = function(dataItem) {
+        flattenLocationProperties = function (dataItem) {
             var propName, propValue,
-                isLocation = function(value) {
+                isLocation = function (value) {
                     return propValue && typeof propValue === 'object' &&
                         propValue.longitude && propValue.latitude;
                 };
@@ -35,7 +35,7 @@ app.levelListView = kendo.observable({
                 dataProvider: dataProvider
             },
 
-            change: function(e) {
+            change: function (e) {
                 var data = this.data();
                 for (var i = 0; i < data.length; i++) {
                     var dataItem = data[i];
@@ -54,25 +54,32 @@ app.levelListView = kendo.observable({
                 }
             },
         },
-        dataSource = new kendo.data.DataSource(dataSourceOptions),
-        levelListViewModel = kendo.observable({
-            dataSource: dataSource,
-            itemClick: function(e) {
-                app.mobileApp.navigate('#components/levelListView/details.html?uid=' + e.dataItem.uid);
+        dataSource = new kendo.data.DataSource(dataSourceOptions);
+    dataSource.group({
+        field: "Level"
+    });
+    dataSource.fetch(function () {        
+        var view = dataSource.view();
+        console.log(view);
+        var levelListViewModel = kendo.observable({
+            dataSource: view,
+            itemClick: function (e) {
+               console.log(e); app.mobileApp.navigate('#components/levelListView/details.html?value=' + e.item[0].value);
             },
-            detailsShow: function(e) {
-                var item = e.view.params.uid,
+            detailsShow: function (e) {
+                var group = e.view.params.value,
                     dataSource = levelListViewModel.get('dataSource'),
-                    itemModel = dataSource.getByUid(item);
-                if (!itemModel.Word) {
-                    itemModel.Word = String.fromCharCode(160);
+                    levelModel = dataSource[group];
+                if (!levelModel.value) {
+                    levelModel.value = String.fromCharCode(160);
                 }
-                levelListViewModel.set('currentItem', itemModel);
+                levelListViewModel.set('currentItem', levelModel);
             },
             currentItem: null
         });
 
-    parent.set('levelListViewModel', levelListViewModel);
+        parent.set('levelListViewModel', levelListViewModel);
+    });
 })(app.levelListView);
 
 // START_CUSTOM_CODE_levelListViewModel
