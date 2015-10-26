@@ -89,6 +89,25 @@
       "title": "Settings",
       "addToNavigation": true,
       "icon": "settings"
+    },
+    {
+      "type": "kendo-ui-mobile:view",
+      "name": "levelListView",
+      "components": [
+        {
+          "type": "kendo-ui-mobile:list",
+          "name": "levelListViewModel",
+          "dataProvider": "flashCardsBackend",
+          "collection": "UsersWords",
+          "headerField": "Level",
+          "masterDetails": true,
+          "detailHeaderField": "Word",
+          "pullToRefresh": false,
+          "endlessScroll": false
+        }
+      ],
+      "title": "My Cards",
+      "addToNavigation": false
     }
   ],
   "dataProviders": [
