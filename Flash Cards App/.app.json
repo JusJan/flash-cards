@@ -108,6 +108,26 @@
       ],
       "title": "My Cards",
       "addToNavigation": false
+    },
+    {
+      "type": "kendo-ui-mobile:view",
+      "name": "levelCardsListView",
+      "components": [
+        {
+          "type": "kendo-ui-mobile:list",
+          "name": "levelCardsListViewModel",
+          "dataProvider": "flashCardsBackend",
+          "collection": "UsersWords",
+          "headerField": "Word",
+          "subHeaderField": "Level",
+          "masterDetails": true,
+          "detailHeaderField": "Word",
+          "pullToRefresh": false,
+          "endlessScroll": false
+        }
+      ],
+      "title": "Level",
+      "addToNavigation": false
     }
   ],
   "dataProviders": [

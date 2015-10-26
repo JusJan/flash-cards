@@ -1,0 +1,14 @@
+<div data-role="view" data-title="Level" data-layout="main-nonav" data-model="app.levelCardsListView" data-show="app.levelCardsListView.onShow" data-after-show="app.levelCardsListView.afterShow">
+    <!-- START_CUSTOM_CODE_levelCardsListView -->
+    <!-- END_CUSTOM_CODE_levelCardsListView -->
+    <ul data-role="listview" data-style="inset" data-template="levelCardsListViewModelTemplate" data-bind="{ source: levelCardsListViewModel.dataSource, events: {click: levelCardsListViewModel.itemClick}}" data-pull-to-refresh="false" data-endless-scroll="false">
+    </ul>
+    <!-- START_CUSTOM_CODE_levelCardsListViewModel -->
+    <!-- END_CUSTOM_CODE_levelCardsListViewModel -->
+    <script type="text/x-kendo-template" id="levelCardsListViewModelTemplate">
+        <div class="image-with-text">
+            <h3>#: data['Word'] #</h3>
+            <p>#: data['Level'] #</p>
+        </div>
+    </script>
+</div>
