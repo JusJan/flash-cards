@@ -1,7 +1,13 @@
 'use strict';
 
 app.levelListView = kendo.observable({
-    onShow: function () {},
+    onShow: function () {
+        if (!app.user) {
+            app.mobileApp.navigate("components/authenticationView/view.html");
+        } else {
+         //   app.levelListView.levelListViewModel.dataSource.read();
+        }
+    },
     afterShow: function () {}
 });
 
@@ -60,11 +66,16 @@ app.levelListView = kendo.observable({
     });
     dataSource.fetch(function () {        
         var view = dataSource.view();
-        console.log(view);
+        var newData = new kendo.data.DataSource();
+        for (var i=0; i<view.length; i++) {
+            newData.add(view[i]);
+        }
+       // console.log(newData);
         var levelListViewModel = kendo.observable({
-            dataSource: view,
+            dataSource: newData,
             itemClick: function (e) {
-               console.log(e); app.mobileApp.navigate('#components/levelListView/details.html?value=' + e.item[0].value);
+               
+               app.mobileApp.navigate('#components/levelCardsListView/view.html?value='+e.dataItem.value);
             },
             detailsShow: function (e) {
                 var group = e.view.params.value,

@@ -1,17 +1,30 @@
 'use strict';
 
 app.levelCardsListView = kendo.observable({
-    onShow: function() {},
-    afterShow: function() {}
+
+    onShow: function (e) {
+        var viewLevel = e.view.params.value;
+        var filterOptions = {
+            field: 'Level',
+            operator: 'equal',
+            value: viewLevel,
+        };
+    },
+    afterShow: function () {}
 });
 
 // START_CUSTOM_CODE_levelCardsListView
 // END_CUSTOM_CODE_levelCardsListView
-(function(parent) {
+(function (parent) {
+    var expandExpr = {
+        'Word': {
+            TargetTypeName: 'Words',
+        },
+    };
     var dataProvider = app.data.flashCardsBackend,
-        flattenLocationProperties = function(dataItem) {
+        flattenLocationProperties = function (dataItem) {
             var propName, propValue,
-                isLocation = function(value) {
+                isLocation = function (value) {
                     return propValue && typeof propValue === 'object' &&
                         propValue.longitude && propValue.latitude;
                 };
@@ -32,10 +45,17 @@ app.levelCardsListView = kendo.observable({
             type: 'everlive',
             transport: {
                 typeName: 'UsersWords',
-                dataProvider: dataProvider
+                dataProvider: dataProvider,
+                read: {
+                    contentType: "application/json",
+                    headers: {
+                        "X-Everlive-Expand": JSON.stringify(expandExpr)
+                    }
+                },
+
             },
 
-            change: function(e) {
+            change: function (e) {
                 var data = this.data();
                 for (var i = 0; i < data.length; i++) {
                     var dataItem = data[i];
@@ -46,8 +66,8 @@ app.levelCardsListView = kendo.observable({
             schema: {
                 model: {
                     fields: {
-                        'Word': {
-                            field: 'Word',
+                        'WordName': {
+                            field: 'Word.Word',
                             defaultValue: ''
                         },
                         'Level': {
@@ -57,14 +77,15 @@ app.levelCardsListView = kendo.observable({
                     }
                 }
             },
+
         },
         dataSource = new kendo.data.DataSource(dataSourceOptions),
         levelCardsListViewModel = kendo.observable({
             dataSource: dataSource,
-            itemClick: function(e) {
+            itemClick: function (e) {
                 app.mobileApp.navigate('#components/levelCardsListView/details.html?uid=' + e.dataItem.uid);
             },
-            detailsShow: function(e) {
+            detailsShow: function (e) {
                 var item = e.view.params.uid,
                     dataSource = levelCardsListViewModel.get('dataSource'),
                     itemModel = dataSource.getByUid(item);
@@ -75,8 +96,9 @@ app.levelCardsListView = kendo.observable({
             },
             currentItem: null
         });
-
+    console.log(dataSource);
     parent.set('levelCardsListViewModel', levelCardsListViewModel);
+
 })(app.levelCardsListView);
 
 // START_CUSTOM_CODE_levelCardsListViewModel

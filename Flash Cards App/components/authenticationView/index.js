@@ -8,6 +8,7 @@ app.authenticationView = kendo.observable({
 // START_CUSTOM_CODE_authenticationView
 // END_CUSTOM_CODE_authenticationView
 (function(parent) {
+   // console.log(app);
     var provider = app.data.flashCardsBackend,
         mode = 'signin',
         registerRedirect = 'homeView',
@@ -36,7 +37,7 @@ app.authenticationView = kendo.observable({
                 app.user = data.result;
 
                 setTimeout(function() {
-                    app.mobileApp.navigate('components/' + redirect + '/view.html');
+                    app.mobileApp.navigate(app.mobileApp.pane.history[0]);
                 }, 0);
             } else {
                 init();
