@@ -1,4 +1,4 @@
-<div data-role="view" data-title="Level" data-layout="main" data-model="app.levelCardsListView" data-show="app.levelCardsListView.onShow" data-after-show="app.levelCardsListView.afterShow">
+<div data-role="view" data-title="Level" data-layout="main" data-model="app.levelCardsListView"  data-show="app.levelCardsListView.onShow" data-after-show="app.levelCardsListView.afterShow">
     <!-- START_CUSTOM_CODE_levelCardsListView -->
     <header data-role="header">
         <div data-role="navbar" class="header-text">
@@ -7,7 +7,7 @@
         </div>
     </header>
     <!-- END_CUSTOM_CODE_levelCardsListView -->
-    <ul data-role="listview" data-style="inset" data-template="levelCardsListViewModelTemplate" data-bind="{ source: levelCardsListViewModel.dataSource, events: {click: levelCardsListViewModel.itemClick} }" data-pull-to-refresh="false" data-endless-scroll="false">
+    <ul data-role="listview" data-style="inset" data-template="levelCardsListViewModelTemplate" data-bind="{ source: levelCardsListViewModel.dataSource, events: {click: levelCardsListViewModel.itemClick, show: app.levelCardsListView.onShow} }" data-pull-to-refresh="false" data-endless-scroll="false">
     </ul>
     <!-- START_CUSTOM_CODE_levelCardsListViewModel -->
     <!-- END_CUSTOM_CODE_levelCardsListViewModel -->
