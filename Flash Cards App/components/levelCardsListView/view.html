@@ -3,11 +3,13 @@
     <header data-role="header">
         <div data-role="navbar" class="header-text">
             <a data-role="backbutton" data-align="left">Back</a>
+            
+            <a data-role="button" data-align="right" data-bind="{events:{click: levelCardsListViewModel.startLearning}}">Start learning</a>
          
         </div>
     </header>
     <!-- END_CUSTOM_CODE_levelCardsListView -->
-    <ul data-role="listview" data-style="inset" data-template="levelCardsListViewModelTemplate" data-bind="{ source: levelCardsListViewModel.dataSource, events: {click: levelCardsListViewModel.itemClick, show: app.levelCardsListView.onShow} }" data-pull-to-refresh="false" data-endless-scroll="false">
+    <ul data-role="listview" data-style="inset" data-template="levelCardsListViewModelTemplate" data-bind="{ source: levelCardsListViewModel.dataSource, events: {click: levelCardsListViewModel.itemClick }}" data-pull-to-refresh="false" data-endless-scroll="false">
     </ul>
     <!-- START_CUSTOM_CODE_levelCardsListViewModel -->
     <!-- END_CUSTOM_CODE_levelCardsListViewModel -->

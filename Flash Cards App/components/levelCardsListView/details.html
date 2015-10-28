@@ -1,12 +1,21 @@
-<div data-role="view" data-title="Details" data-model="app.levelCardsListView.levelCardsListViewModel" data-bind="events: { show: detailsShow }">
+<div data-role="view" data-title="Details" data-model="app.levelCardsListView.levelCardsListViewModel" data-bind="events: { show: detailsShow }" >
     <header data-role="header">
         <div data-role="navbar" class="header-text">
-            <a data-role="backbutton" data-align="left">Back</a>
-            <span data-bind="text: currentItem.Word.Word" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; text-align: center; display: block; margin-left: 70px; margin-right: 70px;"></span>
+            <a data-role="backbutton" data-align="left">Cancel learning</a>
         </div>
     </header>
-
-
+      <div class="progress">
+            <div class="progress-bar" data-transitiongoal="75" aria-valuemin="-1337" aria-valuemax="9000"></div>
+        </div>
+    <span data-bind="text: currentItem.Word.Word" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; text-align: center; display: block; margin: 70px; font-size: 30px; font-weight: bold;"></span>
+    <span data-bind="text: currentItem.Word.Translation" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; text-align: center; display: block; margin: 30px; font-size: 30px; "></span>
+    <span data-bind="text: currentItem.Level" ></span>
+    <div class="button-group button-group-vertical">
+   
+        <a data-role="button" data-bind="events: {click: correct}"  >Correct</a>
+        <a data-role="button">Incorrect</a>
+       
+    </div>
     <!-- START_CUSTOM_CODE_levelCardsListViewModel -->
     <!-- END_CUSTOM_CODE_levelCardsListViewModel -->
 </div>

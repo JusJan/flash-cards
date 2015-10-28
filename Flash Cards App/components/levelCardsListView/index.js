@@ -7,9 +7,22 @@ app.levelCardsListView = kendo.observable({
         var filterOptions = {
             field: 'Level',
             operator: 'equal',
-            value: viewLevel,
+            value: parseInt(viewLevel),
         };
-        
+        app.levelCardsListView.levelCardsListViewModel.dataSource.filter(filterOptions);
+
+
+    },
+    afterShow: function () {}
+});
+
+// START_CUSTOM_CODE_levelCardsListView
+function Correct(e) {
+        // console.log(e.button.data().id);
+        app.mobileApp.navigate('#components/levelCardsListView/details.html?id=' + e.button.data().id);
+    }
+    // END_CUSTOM_CODE_levelCardsListView
+    (function (parent) {
         var expandExpr = {
             'Word': {
                 TargetTypeName: 'Words',
@@ -71,42 +84,61 @@ app.levelCardsListView = kendo.observable({
                         }
                     }
                 },
-                filter: {
-                    field: 'Level',
-                    operator: 'equal',
-                    value: parseInt(viewLevel),
-                },
+
             },
             dataSource = new kendo.data.DataSource(dataSourceOptions);
         var levelCardsListViewModel = kendo.observable({
             dataSource: dataSource,
+            startLearning: function () {
+                if (levelCardsListViewModel.dataSource.view().length == 0) {
+                    alert('There is no cards!');
+                } else {
+                    var firstCardId = levelCardsListViewModel.dataSource.view()[0].id;
+                    levelCardsListViewModel.set('currentItemIndex', 1);
+                    levelCardsListViewModel.set('dataLength', levelCardsListViewModel.dataSource.view().length);
+                    app.mobileApp.navigate('#components/levelCardsListView/details.html?id=' + firstCardId);
+                }
+            },
             itemClick: function (e) {
-                app.mobileApp.navigate('#components/levelCardsListView/details.html?uid=' + e.dataItem.uid);
+                app.mobileApp.navigate('#components/levelCardsListView/details.html?id=' + e.dataItem.id);
             },
             detailsShow: function (e) {
-                var item = e.view.params.uid,
+                var item = e.view.params.id,
                     dataSource = levelCardsListViewModel.get('dataSource'),
-                    itemModel = dataSource.getByUid(item);
-                console.log(item);
+                    itemModel = dataSource.get(item);
+
                 if (!itemModel.Word) {
                     itemModel.Word = String.fromCharCode(160);
                 }
                 levelCardsListViewModel.set('currentItem', itemModel);
+                // after 3s show answer
+
             },
-            currentItem: null
+            correct: function (e) {
+                // update level and correctanswers
+
+                // redirect to next word or level list
+                levelCardsListViewModel.nextCard();
+            },
+            incorrect: function () {
+                // 
+            },
+            nextCard: function() {
+               if (levelCardsListViewModel.currentItemIndex == levelCardsListViewModel.dataLength) {
+                    app.mobileApp.navigate('#components/levelCardsListView/view.html?value=' + dataSource.view()[0].Level);
+                } else {
+                    var nextCardId = levelCardsListViewModel.dataSource.view()[levelCardsListViewModel.currentItemIndex].id;
+                    levelCardsListViewModel.set('currentItemIndex', levelCardsListViewModel.currentItemIndex + 1);
+                    app.mobileApp.navigate('#components/levelCardsListView/details.html?id=' + nextCardId);
+                } 
+            },
+            currentItem: null,
+            currentItemIndex: null,
+            dataLength: null,
         });
-       
-        app.levelCardsListView.set('levelCardsListViewModel', levelCardsListViewModel);
 
-    },
-    afterShow: function () {}
-});
-
-// START_CUSTOM_CODE_levelCardsListView
-// END_CUSTOM_CODE_levelCardsListView
-(function (parent) {
-
-})(app.levelCardsListView);
+        parent.set('levelCardsListViewModel', levelCardsListViewModel);
+    })(app.levelCardsListView);
 
 // START_CUSTOM_CODE_levelCardsListViewModel
 // END_CUSTOM_CODE_levelCardsListViewModel
