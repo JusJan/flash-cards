@@ -99,6 +99,9 @@ function Correct(e) {
                     app.mobileApp.navigate('#components/levelCardsListView/details.html?id=' + firstCardId);
                 }
             },
+            cancelLearning: function () {
+                app.mobileApp.navigate('#components/levelCardsListView/view.html?value=' + dataSource.view()[0].Level);
+            },
             itemClick: function (e) {
                 app.mobileApp.navigate('#components/levelCardsListView/details.html?id=' + e.dataItem.id);
             },
@@ -116,12 +119,16 @@ function Correct(e) {
             },
             correct: function (e) {
                 // update level and correctanswers
+                
 
                 // redirect to next word or level list
                 levelCardsListViewModel.nextCard();
             },
             incorrect: function () {
-                // 
+                // update level and incorrectanswers
+                
+                // redirect ti next word or level
+                levelCardsListViewModel.nextCard();
             },
             nextCard: function() {
                if (levelCardsListViewModel.currentItemIndex == levelCardsListViewModel.dataLength) {
@@ -131,6 +138,9 @@ function Correct(e) {
                     levelCardsListViewModel.set('currentItemIndex', levelCardsListViewModel.currentItemIndex + 1);
                     app.mobileApp.navigate('#components/levelCardsListView/details.html?id=' + nextCardId);
                 } 
+            },
+            deleteCard: function () {
+                console.log('delete it!');
             },
             currentItem: null,
             currentItemIndex: null,

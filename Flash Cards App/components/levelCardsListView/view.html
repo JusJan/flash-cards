@@ -2,21 +2,23 @@
     <!-- START_CUSTOM_CODE_levelCardsListView -->
     <header data-role="header">
         <div data-role="navbar" class="header-text">
-            <a data-role="backbutton" data-align="left">Back</a>
+            <a data-role="button" href="components/levelListView/view.html" data-align="left">Level list</a>
             
             <a data-role="button" data-align="right" data-bind="{events:{click: levelCardsListViewModel.startLearning}}">Start learning</a>
          
         </div>
     </header>
     <!-- END_CUSTOM_CODE_levelCardsListView -->
-    <ul data-role="listview" data-style="inset" data-template="levelCardsListViewModelTemplate" data-bind="{ source: levelCardsListViewModel.dataSource, events: {click: levelCardsListViewModel.itemClick }}" data-pull-to-refresh="false" data-endless-scroll="false">
+    <ul data-role="listview" data-style="inset" data-template="levelCardsListViewModelTemplate" data-bind="{ source: levelCardsListViewModel.dataSource}" data-pull-to-refresh="false" data-endless-scroll="false">
     </ul>
     <!-- START_CUSTOM_CODE_levelCardsListViewModel -->
     <!-- END_CUSTOM_CODE_levelCardsListViewModel -->
     <script type="text/x-kendo-template" id="levelCardsListViewModelTemplate">
         <div class="image-with-text">
+        	<a data-role="button" data-align="right" class="add-button" data-bind="{events: {click: levelCardsListViewModel.deleteCard}}" data-icon="delete"></a>
             <h3>#: data['WordName'] #</h3>
-            <p>#: data['Level'] #</p>
+            <p>Level: #: data['Level'] #</p>
+            <p>Correct ans: #: data['CorrectAnswers'] # Incorrect ans: #: data['IncorrectAnswers'] #</p>
         </div>
     </script>
 </div>

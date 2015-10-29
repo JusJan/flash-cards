@@ -1,7 +1,7 @@
 <div data-role="view" data-title="Details" data-model="app.levelCardsListView.levelCardsListViewModel" data-bind="events: { show: detailsShow }" >
     <header data-role="header">
         <div data-role="navbar" class="header-text">
-            <a data-role="backbutton" data-align="left">Cancel learning</a>
+            <a data-role="button" data-bind="events: {click: cancelLearning}" data-align="left">Cancel learning</a>
         </div>
     </header>
       <div class="progress">
