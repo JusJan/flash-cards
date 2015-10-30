@@ -10,6 +10,7 @@ app.levelCardsListView = kendo.observable({
             value: parseInt(viewLevel),
         };
         app.levelCardsListView.levelCardsListViewModel.dataSource.filter(filterOptions);
+        app.levelCardsListView.levelCardsListViewModel.dataSource.read();
 
 
     },
@@ -17,138 +18,157 @@ app.levelCardsListView = kendo.observable({
 });
 
 // START_CUSTOM_CODE_levelCardsListView
-function Correct(e) {
-        // console.log(e.button.data().id);
-        app.mobileApp.navigate('#components/levelCardsListView/details.html?id=' + e.button.data().id);
-    }
-    // END_CUSTOM_CODE_levelCardsListView
-    (function (parent) {
-        var expandExpr = {
-            'Word': {
-                TargetTypeName: 'Words',
-            },
-        };
-        var dataProvider = app.data.flashCardsBackend,
-            flattenLocationProperties = function (dataItem) {
-                var propName, propValue,
-                    isLocation = function (value) {
-                        return propValue && typeof propValue === 'object' &&
-                            propValue.longitude && propValue.latitude;
-                    };
+// END_CUSTOM_CODE_levelCardsListView
+(function (parent) {
+    var dataProvider = app.data.flashCardsBackend,
+        flattenLocationProperties = function (dataItem) {
+            var propName, propValue,
+                isLocation = function (value) {
+                    return propValue && typeof propValue === 'object' &&
+                        propValue.longitude && propValue.latitude;
+                };
 
-                for (propName in dataItem) {
-                    if (dataItem.hasOwnProperty(propName)) {
-                        propValue = dataItem[propName];
-                        if (isLocation(propValue)) {
-                            // Location type property
-                            dataItem[propName] =
-                                kendo.format('Latitude: {0}, Longitude: {1}',
-                                    propValue.latitude, propValue.longitude);
-                        }
+            for (propName in dataItem) {
+                if (dataItem.hasOwnProperty(propName)) {
+                    propValue = dataItem[propName];
+                    if (isLocation(propValue)) {
+                        // Location type property
+                        dataItem[propName] =
+                            kendo.format('Latitude: {0}, Longitude: {1}',
+                                propValue.latitude, propValue.longitude);
                     }
                 }
+            }
+        },
+        dataSourceOptions = {
+            type: 'everlive',
+            transport: {
+                typeName: 'UsersWords',
+                dataProvider: dataProvider,
             },
-            dataSourceOptions = {
-                type: 'everlive',
-                transport: {
-                    typeName: 'UsersWords',
-                    dataProvider: dataProvider,
-                    read: {
-                        contentType: "application/json",
-                        headers: {
-                            "X-Everlive-Expand": JSON.stringify(expandExpr)
-                        }
-                    },
+            change: function (e) {
+                var data = this.data();
+                for (var i = 0; i < data.length; i++) {
+                    var dataItem = data[i];
 
-                },
-
-                change: function (e) {
-                    var data = this.data();
-                    for (var i = 0; i < data.length; i++) {
-                        var dataItem = data[i];
-
-                        flattenLocationProperties(dataItem);
-                    }
-                },
-                schema: {
-                    model: {
-                        fields: {
-                            'WordName': {
-                                field: 'Word.Word',
-                                defaultValue: ''
-                            },
-                            'Level': {
-                                field: 'Level',
-                                defaultValue: ''
-                            },
-                        }
-                    }
-                },
-
-            },
-            dataSource = new kendo.data.DataSource(dataSourceOptions);
-        var levelCardsListViewModel = kendo.observable({
-            dataSource: dataSource,
-            startLearning: function () {
-                if (levelCardsListViewModel.dataSource.view().length == 0) {
-                    alert('There is no cards!');
-                } else {
-                    var firstCardId = levelCardsListViewModel.dataSource.view()[0].id;
-                    levelCardsListViewModel.set('currentItemIndex', 1);
-                    levelCardsListViewModel.set('dataLength', levelCardsListViewModel.dataSource.view().length);
-                    app.mobileApp.navigate('#components/levelCardsListView/details.html?id=' + firstCardId);
+                    flattenLocationProperties(dataItem);
                 }
             },
-            cancelLearning: function () {
+            schema: {
+                errors: "error"
+            },
+            error: function (e) {
+                console.log(e.errors); // displays "Invalid query"
+            }
+        },
+
+        dataSource = new kendo.data.DataSource(dataSourceOptions);
+    var levelCardsListViewModel = kendo.observable({
+        dataSource: dataSource,
+        startLearning: function () {
+            if (levelCardsListViewModel.dataSource.view().length == 0) {
+                alert('There is no cards!');
+            } else {
+                var firstCardId = levelCardsListViewModel.dataSource.view()[0].id;
+                levelCardsListViewModel.set('currentItemIndex', 1);
+                levelCardsListViewModel.set('dataLength', levelCardsListViewModel.dataSource.view().length);
+                app.mobileApp.navigate('#components/levelCardsListView/details.html?id=' + firstCardId);
+            }
+        },
+        cancelLearning: function () {
+            app.mobileApp.navigate('#components/levelCardsListView/view.html?value=' + dataSource.view()[0].Level);
+        },
+        itemClick: function (e) {
+            app.mobileApp.navigate('#components/levelCardsListView/details.html?id=' + e.dataItem.id);
+        },
+        detailsShow: function (e) {
+            var item = e.view.params.id,
+                dataSource = levelCardsListViewModel.get('dataSource'),
+                itemModel = dataSource.get(item);
+            if (!itemModel.Word) {
+                itemModel.Word = String.fromCharCode(160);
+            }
+            levelCardsListViewModel.set('currentItem', itemModel);
+            // after 3s show answer
+
+            var start = new Date();
+            var maxTime = 3000;
+            var timeoutVal = Math.floor(maxTime / 100);
+            animateUpdate();
+
+            function updateProgress(percentage) {
+                $('#pbar_innerdiv').css("width", percentage + "%");
+                
+            }
+
+            function animateUpdate() {
+                var now = new Date();
+                var timeDiff = now.getTime() - start.getTime();
+                var perc = Math.round((timeDiff / maxTime) * 100);
+                if (perc <= 100) {
+                    updateProgress(perc);
+                    levelCardsListViewModel.set('timer2', window.setTimeout(animateUpdate, timeoutVal));
+                }
+            }
+
+
+
+            $("#wordTranslation").hide();
+            levelCardsListViewModel.set('timer', window.setTimeout(levelCardsListViewModel.displayTranslation, maxTime));
+
+        },
+        correct: function (e) {
+            // update level and correctanswers
+            var selectedItem = e.data.currentItem.id;
+            var item = dataSource.get(selectedItem);
+            var ca = parseInt(item.CorrectAnswers) + 1;
+            item.set('CorrectAnswers', ca);
+          //  levelCardsListViewModel.dataSource.sync();
+            // redirect to next word or level list
+            levelCardsListViewModel.nextCard();
+        },
+        incorrect: function () {
+            // update level and incorrectanswers
+
+            // redirect ti next word or level
+            levelCardsListViewModel.nextCard();
+        },
+        nextCard: function () {
+            if (levelCardsListViewModel.currentItemIndex == levelCardsListViewModel.dataLength) {
                 app.mobileApp.navigate('#components/levelCardsListView/view.html?value=' + dataSource.view()[0].Level);
-            },
-            itemClick: function (e) {
-                app.mobileApp.navigate('#components/levelCardsListView/details.html?id=' + e.dataItem.id);
-            },
-            detailsShow: function (e) {
-                var item = e.view.params.id,
-                    dataSource = levelCardsListViewModel.get('dataSource'),
-                    itemModel = dataSource.get(item);
+            } else {
+                var nextCardId = levelCardsListViewModel.dataSource.view()[levelCardsListViewModel.currentItemIndex].id;
+                levelCardsListViewModel.set('currentItemIndex', levelCardsListViewModel.currentItemIndex + 1);
+                // console.log(levelCardsListViewModel.detailsShow().timer);
+                window.clearTimeout(levelCardsListViewModel.timer);
+                window.clearTimeout(levelCardsListViewModel.timer2);
+                $('#pbar_innerdiv').css("width", "0%");
+                app.mobileApp.navigate('#components/levelCardsListView/details.html?id=' + nextCardId);
+            }
+        },
+        deleteCard: function (e) {
+            var selectedItem = e.data.uid;
+            var dataSource = levelCardsListViewModel.dataSource;
+            var item = dataSource.getByUid(selectedItem);
 
-                if (!itemModel.Word) {
-                    itemModel.Word = String.fromCharCode(160);
-                }
-                levelCardsListViewModel.set('currentItem', itemModel);
-                // after 3s show answer
+            dataSource.remove(item);
+            console.log(dataSource);
+            dataSource.sync();
+        },
+        currentItem: null,
+        currentItemIndex: null,
+        dataLength: null,
+        displayTranslation: function () {
+            $('#wordTranslation').show();
+            //window.setTimeout(levelCardsListViewModel.incorrect, 3000);
+        },
+        timer: null,
+        timer2: null
+    });
 
-            },
-            correct: function (e) {
-                // update level and correctanswers
-                
 
-                // redirect to next word or level list
-                levelCardsListViewModel.nextCard();
-            },
-            incorrect: function () {
-                // update level and incorrectanswers
-                
-                // redirect ti next word or level
-                levelCardsListViewModel.nextCard();
-            },
-            nextCard: function() {
-               if (levelCardsListViewModel.currentItemIndex == levelCardsListViewModel.dataLength) {
-                    app.mobileApp.navigate('#components/levelCardsListView/view.html?value=' + dataSource.view()[0].Level);
-                } else {
-                    var nextCardId = levelCardsListViewModel.dataSource.view()[levelCardsListViewModel.currentItemIndex].id;
-                    levelCardsListViewModel.set('currentItemIndex', levelCardsListViewModel.currentItemIndex + 1);
-                    app.mobileApp.navigate('#components/levelCardsListView/details.html?id=' + nextCardId);
-                } 
-            },
-            deleteCard: function () {
-                console.log('delete it!');
-            },
-            currentItem: null,
-            currentItemIndex: null,
-            dataLength: null,
-        });
-
-        parent.set('levelCardsListViewModel', levelCardsListViewModel);
-    })(app.levelCardsListView);
+    parent.set('levelCardsListViewModel', levelCardsListViewModel);
+})(app.levelCardsListView);
 
 // START_CUSTOM_CODE_levelCardsListViewModel
 // END_CUSTOM_CODE_levelCardsListViewModel

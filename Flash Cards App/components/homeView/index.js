@@ -1,7 +1,9 @@
 'use strict';
 
 app.homeView = kendo.observable({
-    onShow: function () {app.homeView.homeViewModel.dataSource.read();},
+    onShow: function () {
+        app.homeView.homeViewModel.dataSource.read();
+    },
     afterShow: function () {}
 });
 
@@ -65,7 +67,8 @@ app.homeView = kendo.observable({
         },
         dataSource = new kendo.data.DataSource(dataSourceOptions),
         homeViewModel = kendo.observable({
-            dataSource: dataSource
+            dataSource: dataSource,
+
         });
     // console.log(dataSource);
     parent.set('homeViewModel', homeViewModel);
@@ -77,7 +80,8 @@ function AddToMyCards(e) {
         if (!app.user) {
             app.mobileApp.navigate("components/authenticationView/view.html");
         } else {
-            var wordId = e.button.context.id;
+            var word = e.button.data().word;
+            var translation = e.button.data().translation;
             var userId = app.user.Id;
             //add word to user's cards
             var dataProvider = app.data.flashCardsBackend,
@@ -89,15 +93,13 @@ function AddToMyCards(e) {
                     },
                     schema: {
                         model: {
+
                             fields: {
                                 'Word': {
                                     field: 'Word',
                                     defaultValue: ''
                                 },
-                                'Owner': {
-                                    field: 'Owner',
-                                    defaultValue: ''
-                                },
+
                                 'Level': {
                                     field: 'Level',
                                     defaultValue: 1
@@ -114,12 +116,35 @@ function AddToMyCards(e) {
                         }
                     },
                 },
-            dataUsersWords = new kendo.data.DataSource(usersWordsDataOptions);
-            dataUsersWords.add({Word: wordId, Owner: userId, Level: "1", IncorrectAnswers: "0", CorrectAnswers: "0"});
-           // console.log(dataUsersWords);
-            dataUsersWords.sync();
-                //console.log(app.data.flashCardsBackend);
-            //console.log(dataSource);
+                dataUsersWords = new kendo.data.DataSource(usersWordsDataOptions);
+            dataUsersWords.filter([
+                {
+                    field: 'Word',
+                    operator: 'equal',
+                    value: word,
+                },
+                {
+                    field: 'Owner',
+                    operator: 'equal',
+                    value: userId
+                }
+            ]);
+            if (dataUsersWords.view().length != 0) {
+                dataUsersWords.add({
+                    Word: word,
+                    Translation: translation,
+                    Level: "1",
+                    IncorrectAnswers: "0",
+                    CorrectAnswers: "0"
+                });
+                dataUsersWords.sync();
+            } else {
+                window.alert('You already have this card!');
+               
+            }
+
+
+
         }
     }
     // END_CUSTOM_CODE_homeViewModel
