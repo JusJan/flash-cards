@@ -4,7 +4,7 @@
             <ul class="form-content" data-role="listview" data-style="inset">
                 <li>
                     <label>Show card for (s)
-                        <input data-bind="value: settingsViewModel.fields.showCard,  events: {change: settingsViewModel.onChange}" type="number">
+                        <input data-bind="value: settingsViewModel.fields.showCard,  events: {change: settingsViewModel.onChange}" type="number" min="0" max="10">
                     </label>
                 </li>
             </ul>

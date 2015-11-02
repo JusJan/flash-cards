@@ -68,6 +68,37 @@ app.homeView = kendo.observable({
         dataSource = new kendo.data.DataSource(dataSourceOptions),
         homeViewModel = kendo.observable({
             dataSource: dataSource,
+            add: function () {
+                if (!this.word || !this.translation) {
+                    alert("Please fill all inputs.");
+                    return;
+                }
+                var data = dataSource.data();
+                var thisWord = this.word;
+                var res = $.grep(data, function (d) {
+                    return d.Word == thisWord;
+                });
+                if (!res) {
+                    dataSource.add({
+                        Word: this.word,
+                        Translation: this.translation
+                    });
+                    dataSource.one("sync", homeViewModel.close());
+                    dataSource.sync();
+                } else {
+                    alert("This word already exist");
+                }
+
+
+
+
+            },
+            close: function () {
+
+                $("#add").data("kendoMobileModalView").close();
+                this.word = "";
+                this.translation = "";
+            }
 
         });
     // console.log(dataSource);
@@ -131,7 +162,7 @@ function AddToMyCards(e) {
             ]);
             //dataUsersWords.read();
             dataUsersWords.fetch(function () {
-                
+
                 if (dataUsersWords.total() == 0) {
                     dataUsersWords.add({
                         Word: word,
