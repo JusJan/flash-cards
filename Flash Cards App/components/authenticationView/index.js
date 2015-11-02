@@ -2,7 +2,7 @@
 
 app.authenticationView = kendo.observable({
     onShow: function() {},
-    afterShow: function() {}
+    afterShow: function() {defaultSettings();}
 });
 
 // START_CUSTOM_CODE_authenticationView
