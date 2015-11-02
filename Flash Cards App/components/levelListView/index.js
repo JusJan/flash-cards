@@ -5,6 +5,7 @@ app.levelListView = kendo.observable({
         if (!app.user) {
             app.mobileApp.navigate("components/authenticationView/view.html");
         } else {
+
             var dataProvider = app.data.flashCardsBackend,
                 flattenLocationProperties = function (dataItem) {
                     var propName, propValue,
@@ -60,8 +61,8 @@ app.levelListView = kendo.observable({
                 var view = dataSource.view();
                 var newData = new kendo.data.DataSource();
                 for (var i = 0; i < view.length; i++) {
-                   // console.log(view[i].items.length);
-                    view[i].length=view[i].items.length;
+                    // console.log(view[i].items.length);
+                    view[i].length = view[i].items.length;
                     newData.add(view[i]);
 
                 }
@@ -73,9 +74,10 @@ app.levelListView = kendo.observable({
                         app.mobileApp.navigate('#components/levelCardsListView/view.html?value=' + e.dataItem.value);
                     },
                 });
-           
+
                 app.levelListView.set('levelListViewModel', levelListViewModel);
             });
+
         }
     },
     afterShow: function () {}

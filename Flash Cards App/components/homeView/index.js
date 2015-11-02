@@ -167,9 +167,9 @@ function AddToMyCards(e) {
                     dataUsersWords.add({
                         Word: word,
                         Translation: translation,
-                        Level: "1",
-                        IncorrectAnswers: "0",
-                        CorrectAnswers: "0"
+                        Level: 1,
+                        IncorrectAnswers: 0,
+                        CorrectAnswers: 0
                     });
                     dataUsersWords.sync();
                 } else {

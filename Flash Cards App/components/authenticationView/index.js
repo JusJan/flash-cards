@@ -37,7 +37,7 @@ app.authenticationView = kendo.observable({
                 app.user = data.result;
 
                 setTimeout(function() {
-                    app.mobileApp.navigate(app.mobileApp.pane.history[0]);
+                    app.mobileApp.navigate('components/levelListView/view.html');
                 }, 0);
             } else {
                 init();
@@ -70,7 +70,8 @@ app.authenticationView = kendo.observable({
                 }
 
                 provider.Users.login(email, password, successHandler, init);
-                defaultSettings();
+            //    console.log(app.user.id);
+            //    defaultSettings();
             },
             register: function() {
                 var model = authenticationViewModel,
@@ -96,7 +97,7 @@ app.authenticationView = kendo.observable({
         });
 
     parent.set('authenticationViewModel', authenticationViewModel);
-    parent.set('afterShow', function() {
+    parent.set('onShow', function() {
         provider.Users.currentUser().then(successHandler, init);
     });
 })(app.authenticationView);
