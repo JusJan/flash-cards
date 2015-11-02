@@ -129,19 +129,24 @@ function AddToMyCards(e) {
                     value: userId
                 }
             ]);
-            if (dataUsersWords.view().length != 0) {
-                dataUsersWords.add({
-                    Word: word,
-                    Translation: translation,
-                    Level: "1",
-                    IncorrectAnswers: "0",
-                    CorrectAnswers: "0"
-                });
-                dataUsersWords.sync();
-            } else {
-                window.alert('You already have this card!');
-               
-            }
+            //dataUsersWords.read();
+            dataUsersWords.fetch(function () {
+                
+                if (dataUsersWords.total() == 0) {
+                    dataUsersWords.add({
+                        Word: word,
+                        Translation: translation,
+                        Level: "1",
+                        IncorrectAnswers: "0",
+                        CorrectAnswers: "0"
+                    });
+                    dataUsersWords.sync();
+                } else {
+                    window.alert('You already have this card!');
+
+                }
+            });
+
 
 
 

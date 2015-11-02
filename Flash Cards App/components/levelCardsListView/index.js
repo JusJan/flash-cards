@@ -14,10 +14,13 @@ app.levelCardsListView = kendo.observable({
 
 
     },
-    afterShow: function () {}
+    afterShow: function () {
+        console.log(app.levelCardsListView.levelCardsListViewModel.dataSource);
+    }
 });
 
 // START_CUSTOM_CODE_levelCardsListView
+
 // END_CUSTOM_CODE_levelCardsListView
 (function (parent) {
     var dataProvider = app.data.flashCardsBackend,
@@ -45,6 +48,7 @@ app.levelCardsListView = kendo.observable({
             transport: {
                 typeName: 'UsersWords',
                 dataProvider: dataProvider,
+
             },
             change: function (e) {
                 var data = this.data();
@@ -55,23 +59,52 @@ app.levelCardsListView = kendo.observable({
                 }
             },
             schema: {
-                errors: "error"
+                model: {
+                    //    id: 'Id',
+                    fields: {
+                        'Id': {
+                            field: 'Id'
+                        },
+                        'Word': {
+                            field: 'Word',
+                        },
+                        'Translation': {
+                            field: 'Translation',
+                        },
+                        'Level': {
+                            field: 'Level',
+                            type: 'number',
+                            defaultvalue: 1
+                        },
+                        'CorrectAnswers': {
+                            field: 'CorrectAnswers',
+                            type: 'number',
+                            defaultvalue: 0
+                        },
+                        'IncorrectAnswers': {
+                            field: 'IncorrectAnswers',
+                            type: 'number',
+                            defaultvalue: 0
+                        }
+                    }
+
+                }
+
             },
-            error: function (e) {
-                console.log(e.errors); // displays "Invalid query"
-            }
         },
 
         dataSource = new kendo.data.DataSource(dataSourceOptions);
+
     var levelCardsListViewModel = kendo.observable({
         dataSource: dataSource,
         startLearning: function () {
             if (levelCardsListViewModel.dataSource.view().length == 0) {
                 alert('There is no cards!');
             } else {
-                var firstCardId = levelCardsListViewModel.dataSource.view()[0].id;
+                levelCardsListViewModel.set('handCards', levelCardsListViewModel.dataSource.view());
+                var firstCardId = levelCardsListViewModel.handCards[0].id;
                 levelCardsListViewModel.set('currentItemIndex', 1);
-                levelCardsListViewModel.set('dataLength', levelCardsListViewModel.dataSource.view().length);
+                levelCardsListViewModel.set('dataLength', levelCardsListViewModel.handCards.length);
                 app.mobileApp.navigate('#components/levelCardsListView/details.html?id=' + firstCardId);
             }
         },
@@ -92,13 +125,13 @@ app.levelCardsListView = kendo.observable({
             // after 3s show answer
 
             var start = new Date();
-            var maxTime = 3000;
+            var maxTime = app.settingsView.settingsViewModel.fields.showCard * 1000;
             var timeoutVal = Math.floor(maxTime / 100);
             animateUpdate();
 
             function updateProgress(percentage) {
                 $('#pbar_innerdiv').css("width", percentage + "%");
-                
+
             }
 
             function animateUpdate() {
@@ -120,24 +153,42 @@ app.levelCardsListView = kendo.observable({
         correct: function (e) {
             // update level and correctanswers
             var selectedItem = e.data.currentItem.id;
+            var dataSource = levelCardsListViewModel.get('dataSource');
             var item = dataSource.get(selectedItem);
+            var currentLevel = item.Level;
             var ca = parseInt(item.CorrectAnswers) + 1;
+            if (parseInt(item.Level) != 5) {
+                var level = parseInt(item.Level) + 1;
+            }
             item.set('CorrectAnswers', ca);
-          //  levelCardsListViewModel.dataSource.sync();
+            item.set('Level', level);
+            dataSource.sync();
             // redirect to next word or level list
-            levelCardsListViewModel.nextCard();
+            levelCardsListViewModel.nextCard(currentLevel);
         },
-        incorrect: function () {
+        incorrect: function (e) {
             // update level and incorrectanswers
-
+            var selectedItem = e.data.currentItem.id;
+            var dataSource = levelCardsListViewModel.get('dataSource');
+            var item = dataSource.get(selectedItem);
+            var currentLevel = item.Level;
+            var ia = parseInt(item.IncorrectAnswers) + 1;
+            var level = 1;
+            item.set('IncorrectAnswers', ia);
+            item.set('Level', level);
+            dataSource.sync();
             // redirect ti next word or level
-            levelCardsListViewModel.nextCard();
+            levelCardsListViewModel.nextCard(currentLevel);
+
         },
-        nextCard: function () {
+        nextCard: function (level) {
             if (levelCardsListViewModel.currentItemIndex == levelCardsListViewModel.dataLength) {
-                app.mobileApp.navigate('#components/levelCardsListView/view.html?value=' + dataSource.view()[0].Level);
+                app.mobileApp.navigate('#components/levelCardsListView/view.html?value=' + level);
             } else {
-                var nextCardId = levelCardsListViewModel.dataSource.view()[levelCardsListViewModel.currentItemIndex].id;
+           //     console.log(levelCardsListViewModel.dataSource);
+             //   console.log(levelCardsListViewModel.currentItemIndex);
+                var nextCardId = levelCardsListViewModel.handCards[levelCardsListViewModel.currentItemIndex].id;
+
                 levelCardsListViewModel.set('currentItemIndex', levelCardsListViewModel.currentItemIndex + 1);
                 // console.log(levelCardsListViewModel.detailsShow().timer);
                 window.clearTimeout(levelCardsListViewModel.timer);
@@ -148,16 +199,26 @@ app.levelCardsListView = kendo.observable({
         },
         deleteCard: function (e) {
             var selectedItem = e.data.uid;
-            var dataSource = levelCardsListViewModel.dataSource;
+            var dataSource = levelCardsListViewModel.get('dataSource');
             var item = dataSource.getByUid(selectedItem);
-
+            //    var index = dataSource.indexOf(item);
+            //   console.log(dataSource.indexOf(item));
+            //dataSource.fetch(function () {
+            var deleteItem = dataSource.at(0);
+            //deleteItem.set({'Level': 2});
             dataSource.remove(item);
-            console.log(dataSource);
+            //    console.log(dataSource); 
+
             dataSource.sync();
+
+            // });
+
+
         },
         currentItem: null,
         currentItemIndex: null,
         dataLength: null,
+        handCards: null,
         displayTranslation: function () {
             $('#wordTranslation').show();
             //window.setTimeout(levelCardsListViewModel.incorrect, 3000);

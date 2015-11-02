@@ -70,6 +70,7 @@ app.authenticationView = kendo.observable({
                 }
 
                 provider.Users.login(email, password, successHandler, init);
+                defaultSettings();
             },
             register: function() {
                 var model = authenticationViewModel,
@@ -86,6 +87,7 @@ app.authenticationView = kendo.observable({
                 }
 
                 provider.Users.register(email, password, attrs, successHandler, init);
+                
             },
             toggleView: function() {
                 mode = mode === 'signin' ? 'register' : 'signin';
