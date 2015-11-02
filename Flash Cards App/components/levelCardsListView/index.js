@@ -159,9 +159,10 @@ app.levelCardsListView = kendo.observable({
             var ca = parseInt(item.CorrectAnswers) + 1;
             if (parseInt(item.Level) != 5) {
                 var level = parseInt(item.Level) + 1;
+                item.set('Level', level);
             }
             item.set('CorrectAnswers', ca);
-            item.set('Level', level);
+            
             dataSource.sync();
             // redirect to next word or level list
             levelCardsListViewModel.nextCard(currentLevel);
