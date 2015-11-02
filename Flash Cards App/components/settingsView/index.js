@@ -5,13 +5,12 @@ app.settingsView = kendo.observable({
         if (!app.user) {
             app.mobileApp.navigate("components/authenticationView/view.html");
         } 
-        else {
-            defaultSettings();
-        }
+      
     },
     afterShow: function () {}
 });
 function defaultSettings() {
+    
      var dataSource = app.settingsView.settingsViewModel.dataSource;
             var filterOptions =  {field: 'Owner',
             operator: 'equal',

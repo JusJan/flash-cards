@@ -2,7 +2,7 @@
 
 app.authenticationView = kendo.observable({
     onShow: function() {},
-    afterShow: function() {defaultSettings();}
+    afterShow: function() {}
 });
 
 // START_CUSTOM_CODE_authenticationView
@@ -35,6 +35,7 @@ app.authenticationView = kendo.observable({
 
             if (data && data.result) {
                 app.user = data.result;
+                defaultSettings();
 
                 setTimeout(function() {
                     app.mobileApp.navigate('components/levelListView/view.html');
@@ -97,8 +98,9 @@ app.authenticationView = kendo.observable({
         });
 
     parent.set('authenticationViewModel', authenticationViewModel);
-    parent.set('onShow', function() {
+    parent.set('afterShow', function() {
         provider.Users.currentUser().then(successHandler, init);
+        
     });
 })(app.authenticationView);
 
