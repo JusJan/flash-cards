@@ -3,7 +3,7 @@
     <header data-role="header">
         <div data-role="navbar" class="header-text">
             <a data-role="button" href="components/levelListView/view.html" data-align="left">Level list</a>
-            
+            <span data-role="view-title"></span> <span data-bind="text: levelCardsListViewModel.dataSource.view()[0].Level"></span>
             <a data-role="button" data-align="right" data-bind="{events:{click: levelCardsListViewModel.startLearning}}">Start learning</a>
          
         </div>
@@ -17,7 +17,7 @@
         <div class="image-with-text">
         	<a data-role="button" data-align="right" class="add-button" data-bind="{events: {click: levelCardsListViewModel.deleteCard}}" data-icon="delete"></a>
             <h3>#: data['Word'] #</h3>
-            <p>Level: #: data['Level'] #</p>
+            
             <p>Correct ans: #: data['CorrectAnswers'] # Incorrect ans: #: data['IncorrectAnswers'] #</p>
         </div>
     </script>

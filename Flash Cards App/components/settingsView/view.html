@@ -1,14 +1,15 @@
 <div data-role="view" data-title="Settings" data-layout="main" data-model="app.settingsView" data-show="app.settingsView.onShow" data-after-show="app.settingsView.afterShow">
     <div id="settingsViewModel" class="form-view">
-        <form>
-            <ul class="form-content" data-role="listview" data-style="inset">
+        <form >
+            <ul class="form-content" data-role="listview" data-style="inset" >
                 <li>
-                    <label>Show card for (s)
-                        <input data-bind="value: settingsViewModel.fields.showCard,  events: {change: settingsViewModel.onChange}" type="number" min="0" max="10">
-                    </label>
+                    <label >Show card sec.</label>
+                        <input  data-bind="value: settingsViewModel.fields.showCard,  events: {change: settingsViewModel.onChange}" type="number" min="0" max="10" >
+                  
+                    
                 </li>
             </ul>
-        </form>
+        </form> 
         <!-- START_CUSTOM_CODE_settingsViewModel -->
         <!-- END_CUSTOM_CODE_settingsViewModel -->
     </div>

@@ -73,7 +73,7 @@ app.levelListView = kendo.observable({
                         app.mobileApp.navigate('#components/levelCardsListView/view.html?value=' + e.dataItem.value);
                     },
                 });
-                console.log(levelListViewModel);
+           
                 app.levelListView.set('levelListViewModel', levelListViewModel);
             });
         }

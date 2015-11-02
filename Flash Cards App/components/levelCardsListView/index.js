@@ -15,7 +15,7 @@ app.levelCardsListView = kendo.observable({
 
     },
     afterShow: function () {
-        console.log(app.levelCardsListView.levelCardsListViewModel.dataSource);
+       
     }
 });
 
@@ -185,12 +185,12 @@ app.levelCardsListView = kendo.observable({
             if (levelCardsListViewModel.currentItemIndex == levelCardsListViewModel.dataLength) {
                 app.mobileApp.navigate('#components/levelCardsListView/view.html?value=' + level);
             } else {
-           //     console.log(levelCardsListViewModel.dataSource);
-             //   console.log(levelCardsListViewModel.currentItemIndex);
+      
+      
                 var nextCardId = levelCardsListViewModel.handCards[levelCardsListViewModel.currentItemIndex].id;
 
                 levelCardsListViewModel.set('currentItemIndex', levelCardsListViewModel.currentItemIndex + 1);
-                // console.log(levelCardsListViewModel.detailsShow().timer);
+                
                 window.clearTimeout(levelCardsListViewModel.timer);
                 window.clearTimeout(levelCardsListViewModel.timer2);
                 $('#pbar_innerdiv').css("width", "0%");
@@ -201,15 +201,14 @@ app.levelCardsListView = kendo.observable({
             var selectedItem = e.data.uid;
             var dataSource = levelCardsListViewModel.get('dataSource');
             var item = dataSource.getByUid(selectedItem);
-            //    var index = dataSource.indexOf(item);
-            //   console.log(dataSource.indexOf(item));
-            //dataSource.fetch(function () {
+            
+            
             var deleteItem = dataSource.at(0);
             //deleteItem.set({'Level': 2});
             dataSource.remove(item);
-            //    console.log(dataSource); 
+            
 
-            dataSource.sync();
+          //  dataSource.sync();
 
             // });
 

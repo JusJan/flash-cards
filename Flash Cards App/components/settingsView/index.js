@@ -79,7 +79,7 @@ function defaultSettings() {
             }, function () {
                 navigator.notification.alert("Unfortunately an error occurred logging out of your account.");
             });
-            console.log(dataProvider.Users);
+            
         },
     });
 

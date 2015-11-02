@@ -101,7 +101,7 @@ app.homeView = kendo.observable({
             }
 
         });
-    // console.log(dataSource);
+   
     parent.set('homeViewModel', homeViewModel);
 
 })(app.homeView);

@@ -8,7 +8,7 @@ app.authenticationView = kendo.observable({
 // START_CUSTOM_CODE_authenticationView
 // END_CUSTOM_CODE_authenticationView
 (function(parent) {
-   // console.log(app);
+
     var provider = app.data.flashCardsBackend,
         mode = 'signin',
         registerRedirect = 'homeView',

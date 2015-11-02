@@ -72,17 +72,5 @@
 }());
 
 // START_CUSTOM_CODE_kendoUiMobileApp
-if (app.user) {
-    var loggedUser = app.user.UserName;
-} else {
-    var loggedUser = "Anonymous";
-}
-indexViewModel = kendo.observable({
-    user: loggedUser
-});
-var index = new kendo.View('loggedUser', {
-    model: indexViewModel,
-    evalTemplate: true
-});
-console.log(indexViewModel.user);
+
 // END_CUSTOM_CODE_kendoUiMobileApp
