@@ -26,6 +26,10 @@
         document.addEventListener('deviceready', function () {
             // hide the splash screen as soon as the app is ready. otherwise
             // Cordova will wait 5 very long seconds to do it for you.
+           
+                feedback.initialize('ca744c80-8159-11e5-9cb9-6b709f29b458');
+          
+
             if (navigator && navigator.splashscreen) {
                 navigator.splashscreen.hide();
             }
@@ -64,17 +68,21 @@
             return navigator.connection.type !== 'none';
         }
     };
-    
+
 }());
 
 // START_CUSTOM_CODE_kendoUiMobileApp
-if(app.user) {
+if (app.user) {
     var loggedUser = app.user.UserName;
-}
-else {
+} else {
     var loggedUser = "Anonymous";
 }
-indexViewModel = kendo.observable({ user: loggedUser});
-var index = new kendo.View('loggedUser', {model:indexViewModel, evalTemplate: true });
+indexViewModel = kendo.observable({
+    user: loggedUser
+});
+var index = new kendo.View('loggedUser', {
+    model: indexViewModel,
+    evalTemplate: true
+});
 console.log(indexViewModel.user);
 // END_CUSTOM_CODE_kendoUiMobileApp
