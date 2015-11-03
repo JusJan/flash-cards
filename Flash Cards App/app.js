@@ -72,5 +72,11 @@
 }());
 
 // START_CUSTOM_CODE_kendoUiMobileApp
+function exitFromApp() {
+    var r = confirm('Do you want to close the app?');
+    if (r) {navigator.app.exitApp();}
+}
+     
+
 
 // END_CUSTOM_CODE_kendoUiMobileApp

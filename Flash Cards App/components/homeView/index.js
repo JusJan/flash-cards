@@ -75,10 +75,12 @@ app.homeView = kendo.observable({
                     return;
                 }
                 var data = dataSource.data();
-                var thisWord = this.word.toLowerCase;
+                var thisWord = this.word.toLowerCase();
                 var res = $.grep(data, function (d) {
-                    return d.Word.toLowerCase == thisWord;
+                    return d.Word.toLowerCase() == thisWord;
                 });
+                
+                
                 if (res.length == 0) {
                     dataSource.add({
                         Word: this.word,
