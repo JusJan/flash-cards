@@ -68,17 +68,18 @@ app.homeView = kendo.observable({
         dataSource = new kendo.data.DataSource(dataSourceOptions),
         homeViewModel = kendo.observable({
             dataSource: dataSource,
-            add: function () {
+            add: function (e) {
+
                 if (!this.word || !this.translation) {
                     alert("Please fill all inputs.");
                     return;
                 }
                 var data = dataSource.data();
-                var thisWord = this.word;
+                var thisWord = this.word.toLowerCase;
                 var res = $.grep(data, function (d) {
-                    return d.Word == thisWord;
+                    return d.Word.toLowerCase == thisWord;
                 });
-                if (!res) {
+                if (res.length == 0) {
                     dataSource.add({
                         Word: this.word,
                         Translation: this.translation
@@ -96,13 +97,14 @@ app.homeView = kendo.observable({
             close: function () {
 
                 $("#add").data("kendoMobileModalView").close();
-                this.word = "";
-                this.translation = "";
+                $("#word").val('');
+                $("#translation").val('');
             }
 
         });
-   
+
     parent.set('homeViewModel', homeViewModel);
+
 
 })(app.homeView);
 
@@ -112,42 +114,45 @@ function AddToMyCards(e) {
             app.mobileApp.navigate("components/authenticationView/view.html");
         } else {
             var word = e.button.data().word;
+
             var translation = e.button.data().translation;
             var userId = app.user.Id;
             //add word to user's cards
             var dataProvider = app.data.flashCardsBackend,
                 usersWordsDataOptions = {
-                    type: 'everlive',
-                    transport: {
-                        typeName: 'UsersWords',
-                        dataProvider: dataProvider
-                    },
-                    schema: {
-                        model: {
+                        type: 'everlive',
+                        transport: {
+                            typeName: 'UsersWords',
+                            dataProvider: dataProvider
+                        },
+                        schema: {
+                            model: {
 
-                            fields: {
-                                'Word': {
-                                    field: 'Word',
-                                    defaultValue: ''
-                                },
+                                fields: {
+                                    'Word': {
+                                        field: 'Word',
+                                        defaultValue: ''
+                                    },
 
-                                'Level': {
-                                    field: 'Level',
-                                    defaultValue: 1
-                                },
-                                'IncorrectAnswers': {
-                                    field: 'IncorrectAnswers',
-                                    defaultValue: 0
-                                },
-                                'CorrectAnswers': {
-                                    field: 'CorrectAnswers',
-                                    defaultValue: 0
-                                },
+                                    'Level': {
+                                        field: 'Level',
+                                        defaultValue: 1
+                                    },
+                                    'IncorrectAnswers': {
+                                        field: 'IncorrectAnswers',
+                                        defaultValue: 0
+                                    },
+                                    'CorrectAnswers': {
+                                        field: 'CorrectAnswers',
+                                        defaultValue: 0
+                                    },
+                                }
                             }
-                        }
+                        },
                     },
-                },
-                dataUsersWords = new kendo.data.DataSource(usersWordsDataOptions);
+                    dataUsersWords = new kendo.data.DataSource(usersWordsDataOptions);
+
+
             dataUsersWords.filter([
                 {
                     field: 'Word',
@@ -160,7 +165,7 @@ function AddToMyCards(e) {
                     value: userId
                 }
             ]);
-            //dataUsersWords.read();
+
             dataUsersWords.fetch(function () {
 
                 if (dataUsersWords.total() == 0) {
@@ -172,6 +177,7 @@ function AddToMyCards(e) {
                         CorrectAnswers: 0
                     });
                     dataUsersWords.sync();
+                    navigator.notification.alert('Card is added succesfuly');
                 } else {
                     window.alert('You already have this card!');
 

@@ -16,7 +16,7 @@ function defaultSettings() {
             operator: 'equal',
             value: app.user.id};
             dataSource.filter(filterOptions);
-            dataSource.read();
+          
             dataSource.fetch(function () {
                 if(!dataSource.at(0)) {
                     dataSource.add({'ShowCard': 3});

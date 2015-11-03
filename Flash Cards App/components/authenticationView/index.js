@@ -11,8 +11,8 @@ app.authenticationView = kendo.observable({
 
     var provider = app.data.flashCardsBackend,
         mode = 'signin',
-        registerRedirect = 'homeView',
-        signinRedirect = 'homeView',
+        registerRedirect = 'levelListView',
+        signinRedirect = 'levelListView',
         init = function(error) {
             if (error) {
                 if (error.message) {
@@ -36,10 +36,13 @@ app.authenticationView = kendo.observable({
             if (data && data.result) {
                 app.user = data.result;
                 defaultSettings();
-
+               // console.log('success');
+			//	if (mode == 'register') {authenticationViewModel.signin();}
+              //  else {
                 setTimeout(function() {
-                    app.mobileApp.navigate('components/levelListView/view.html');
+                    app.mobileApp.navigate('components/'+redirect+'/view.html');
                 }, 0);
+              //  }
             } else {
                 init();
             }
@@ -71,8 +74,7 @@ app.authenticationView = kendo.observable({
                 }
 
                 provider.Users.login(email, password, successHandler, init);
-            //    console.log(app.user.id);
-            //    defaultSettings();
+          
             },
             register: function() {
                 var model = authenticationViewModel,
@@ -88,8 +90,16 @@ app.authenticationView = kendo.observable({
                     return false;
                 }
 
-                provider.Users.register(email, password, attrs, successHandler, init);
-                
+              //  provider.Users.register(email, password, attrs, successHandler, init);
+                var el = new Everlive('mihd8Xpk66olhsem');
+                el.Users.register(email, password, attrs,  function () {
+                    alert("Your account was successfully created.");
+                  // app.mobileApp.navigate('components/authenticationView/view.html');
+                    authenticationViewModel.toggleView();
+                },
+                function () {
+                    alert("Unfortunately we were unable to create your account.");
+                });
             },
             toggleView: function() {
                 mode = mode === 'signin' ? 'register' : 'signin';
@@ -99,6 +109,7 @@ app.authenticationView = kendo.observable({
 
     parent.set('authenticationViewModel', authenticationViewModel);
     parent.set('afterShow', function() {
+        
         provider.Users.currentUser().then(successHandler, init);
         
     });

@@ -23,7 +23,7 @@ app.levelCardsListView = kendo.observable({
 
 // END_CUSTOM_CODE_levelCardsListView
 (function (parent) {
-    var dataProvider = app.data.flashCardsBackend,
+    var dataProvider =  app.data.flashCardsBackend,
         flattenLocationProperties = function (dataItem) {
             var propName, propValue,
                 isLocation = function (value) {
@@ -184,7 +184,7 @@ app.levelCardsListView = kendo.observable({
         },
         nextCard: function (level) {
             if (levelCardsListViewModel.currentItemIndex == levelCardsListViewModel.dataLength) {
-                app.mobileApp.navigate('#components/levelCardsListView/view.html?value=' + level);
+                app.mobileApp.navigate('#components/levelListView/view.html');
             } else {
       
       
@@ -209,7 +209,7 @@ app.levelCardsListView = kendo.observable({
             dataSource.remove(item);
             
 
-          //  dataSource.sync();
+           // dataSource.sync();
 
             // });
 
