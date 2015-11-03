@@ -72,6 +72,7 @@
 }());
 
 // START_CUSTOM_CODE_kendoUiMobileApp
+document.addEventListener("backbutton", exitFromApp, true); 
 function exitFromApp() {
     var r = confirm('Do you want to close the app?');
     if (r) {navigator.app.exitApp();}
