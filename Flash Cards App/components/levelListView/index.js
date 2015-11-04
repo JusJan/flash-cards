@@ -4,6 +4,7 @@ app.levelListView = kendo.observable({
     onShow: function () {
         $('#noCards').hide();
         kendo.ui.progress($('.k-loading-mask'), true);
+       
         if (!app.user) {
             app.mobileApp.navigate("components/authenticationView/view.html");
         } else {
@@ -70,7 +71,7 @@ app.levelListView = kendo.observable({
                 }
                 if (view.length == 0) {$('#noCards').show();}
                 kendo.ui.progress($('.k-loading-mask'), false);
-
+             
                 var levelListViewModel = kendo.observable({
                     dataSource: newData,
                     itemClick: function (e) {

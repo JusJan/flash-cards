@@ -122,7 +122,9 @@ app.levelCardsListView = kendo.observable({
                 itemModel.Word = String.fromCharCode(160);
             }
             levelCardsListViewModel.set('currentItem', itemModel);
+            if(levelCardsListViewModel.reverse) {levelCardsListViewModel.displayTranslation();}
             // after 3s show answer
+          
 
             var start = new Date();
             var maxTime = app.settingsView.settingsViewModel.fields.showCard * 1000;
@@ -197,6 +199,7 @@ app.levelCardsListView = kendo.observable({
                 $('#pbar_innerdiv').css("width", "0%");
                 app.mobileApp.navigate('#components/levelCardsListView/details.html?id=' + nextCardId);
             }
+           
         },
         deleteCard: function (e) {
             var selectedItem = e.data.uid;
@@ -219,20 +222,30 @@ app.levelCardsListView = kendo.observable({
         currentItemIndex: null,
         dataLength: null,
         handCards: null,
-        displayTranslation: function () {
+        displayTranslation: function (stop) {
         //    $('#wordTranslation').show();
             //document.querySelector('#flip-toggle').classList.toggle("flip");
-            var effect = kendo.fx("#flip-toggle").flipHorizontal($(".front"), $(".back")).duration(1000);
-             
+           
+            var effect = kendo.fx("#flip-toggle").flipHorizontal($(".front"), $(".back")).duration(500);
+             if (effect.options.face.length>1) {
+                 
+                 delete effect.options.face[1];
+                 effect.options.face.length = 1;
+                 delete effect.options.back[1];
+                 effect.options.back.length = 1;
+                 
+             }
                
             effect.stop();
+           // stop ? effect.reverse() : effect.play();
             levelCardsListViewModel.reverse ? effect.reverse() : effect.play();
-            levelCardsListViewModel.reverse = !levelCardsListViewModel.reverse;
+            levelCardsListViewModel.set('reverse' , !levelCardsListViewModel.reverse);
             //window.setTimeout(levelCardsListViewModel.incorrect, 3000);
         },
         timer: null,
         timer2: null,
-        effectReverse: false
+        reverse: false
+        
     });
 
 
