@@ -179,7 +179,7 @@ function AddToMyCards(e) {
                         CorrectAnswers: 0
                     });
                     dataUsersWords.sync();
-                    navigator.notification.alert('Card is added succesfuly');
+                    alert('Card is added succesfuly');
                 } else {
                     window.alert('You already have this card!');
 

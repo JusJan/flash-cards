@@ -2,7 +2,9 @@
     // store a reference to the application object that will be created
     // later on so that we can use it if need be
     var app = {
-        data: {}
+        data: {
+            
+        }
     };
 
     var bootstrap = function () {
@@ -73,11 +75,16 @@
 
 // START_CUSTOM_CODE_kendoUiMobileApp
 document.addEventListener("backbutton", exitFromApp, true); 
+
 function exitFromApp() {
     var r = confirm('Do you want to close the app?');
     if (r) {navigator.app.exitApp();}
 }
-     
+ (function(){
+      var notificationElement = $("#notification");
+    notificationElement.kendoNotification();
+    var notificationWidget = notificationElement.data("kendoNotification"); 
+ });  
 
 
 // END_CUSTOM_CODE_kendoUiMobileApp

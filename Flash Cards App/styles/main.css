@@ -141,6 +141,7 @@ h3, p {
 .front, .back {
     border: 1px solid #5C5C3D;
     border-radius: 5px;
+    box-shadow: 3px 3px 2px #888888;
     background: #EBEBE0;
 }
 /* flip speed goes here */

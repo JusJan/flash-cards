@@ -221,11 +221,18 @@ app.levelCardsListView = kendo.observable({
         handCards: null,
         displayTranslation: function () {
         //    $('#wordTranslation').show();
-            document.querySelector('#flip-toggle').classList.toggle("flip");
+            //document.querySelector('#flip-toggle').classList.toggle("flip");
+            var effect = kendo.fx("#flip-toggle").flipHorizontal($(".front"), $(".back")).duration(1000);
+             
+               
+            effect.stop();
+            levelCardsListViewModel.reverse ? effect.reverse() : effect.play();
+            levelCardsListViewModel.reverse = !levelCardsListViewModel.reverse;
             //window.setTimeout(levelCardsListViewModel.incorrect, 3000);
         },
         timer: null,
-        timer2: null
+        timer2: null,
+        effectReverse: false
     });
 
 
