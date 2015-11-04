@@ -5,14 +5,20 @@
         </div>
     </header>
     <div id="pbar_outerdiv" style="width: 100%; height: 10px; z-index: 1; position: relative; ">
-        <div id="pbar_innerdiv" style="background-color: #3366FF; z-index: 2; height: 100%; width: 0%;"></div>
-        
+        <div id="pbar_innerdiv" style="background-color: #D7E5FF; z-index: 2; height: 100%; width: 0%;"></div>
     </div>
-    <span data-bind="text: currentItem.Word" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; text-align: center; display: block; margin: 70px; font-size: 30px; font-weight: bold;"></span>
-    <div style="height:50px;">
-        
-   <span id="wordTranslation" data-bind="text: currentItem.Translation" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; text-align: center; display: block; margin: 30px; font-size: 30px;  "></span>
-    </div> 
+    <div class="flip-container" id="flip-toggle" data-bind="events: {click: displayTranslation}">
+        <div class="flipper">
+            <div class="front" >
+                <span data-bind="text: currentItem.Word" style=" white-space: nowrap;  text-align: center; display: block; margin: 30px; font-size: 30px; font-weight: bold;"></span>
+            </div>
+            <div class="back" >
+                <span id="wordTranslation" data-bind="text: currentItem.Translation" style=" white-space: nowrap; text-align: center; display: block; margin: 30px; font-size: 30px;  "></span>
+            </div>
+        </div>
+    </div>
+    
+    
     <div class="button-group button-group-vertical" data-template="buttons">
         <a data-role="button" data-bind="events: {click: correct}">Correct</button>
         <a data-role="button" data-bind="events: {click: incorrect}">Incorrect</a>

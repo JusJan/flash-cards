@@ -146,7 +146,7 @@ app.levelCardsListView = kendo.observable({
 
 
 
-            $("#wordTranslation").hide();
+           // $("#wordTranslation").hide();
             levelCardsListViewModel.set('timer', window.setTimeout(levelCardsListViewModel.displayTranslation, maxTime));
 
         },
@@ -220,7 +220,8 @@ app.levelCardsListView = kendo.observable({
         dataLength: null,
         handCards: null,
         displayTranslation: function () {
-            $('#wordTranslation').show();
+        //    $('#wordTranslation').show();
+            document.querySelector('#flip-toggle').classList.toggle("flip");
             //window.setTimeout(levelCardsListViewModel.incorrect, 3000);
         },
         timer: null,
